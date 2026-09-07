@@ -16,3 +16,6 @@ This is a frontend demo. Before accepting real crypto payments, replace the conf
 - index.html
 - style.css
 - script.js
+
+
+Updated: login/register gate appears first for new visitors; BTC/LTC QR codes are included in checkout. Payment remains demo-only and requires server-side verification before accepting real orders.

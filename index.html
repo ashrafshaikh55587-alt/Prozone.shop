@@ -2,9 +2,35 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Prozone.shop — Digital Products</title><link rel="stylesheet" href="style.css"></head>
 <body>
+<div id="authGate" class="auth-gate">
+  <div class="auth-card">
+    <div class="auth-brand"><i>◆</i> PROZONE<span>.SHOP</span></div>
+    <small>MEMBERS ONLY</small>
+    <h1 id="authTitle">Login to Prozone</h1>
+    <p class="muted" id="authSubtitle">Login first to access the store.</p>
+    <div id="authLoginFields">
+      <input id="gateLoginEmail" class="field" placeholder="Email">
+      <input id="gateLoginPass" class="field" type="password" placeholder="Password">
+      <button class="cta full" onclick="gateLogin()">Login</button>
+      <p class="muted center">New here? <a href="#" onclick="showGateSignup();return false">Create an account</a></p>
+    </div>
+    <div id="authSignupFields" class="hidden">
+      <input id="gateSignupName" class="field" placeholder="Full name">
+      <input id="gateSignupEmail" class="field" placeholder="Email">
+      <input id="gateSignupPass" class="field" type="password" placeholder="Password">
+      <button class="cta full" onclick="gateSignup()">Create Account</button>
+      <p class="muted center">Already registered? <a href="#" onclick="showGateLogin();return false">Login</a></p>
+    </div>
+  </div>
+</div>
 <header><a class="brand" href="#"><i>◆</i> PROZONE<span>.SHOP</span></a>
 <nav><a href="#home">Home</a><a href="#shop">Shop</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
-<div class="actions"><input id="searchInput" placeholder="Search products..."><button id="account" onclick="openModal('loginModal')">Account</button><button onclick="openCart()">🛒 <b id="cartCount">0</b></button></div></header>
+<div class="actions"><input id="searchInput" placeholder="Search products..."><button id="account" onclick="openModal('loginModal')">Account</button><button onclick="openCart()">🛒 <b id="cartCount">0</b></button></div>
+<div class="admin-actions" id="adminActions" style="display:none">
+  <button class="btn secondary" type="button" onclick="openAdminPanel()">Admin Panel</button>
+</div>
+
+</header>
 <section id="home" class="hero"><div><small>WELCOME TO PROZONE.SHOP</small><h1>Premium Digital Products for <em>Creators & Entrepreneurs</em></h1>
 <p>High-quality digital products designed to boost your creativity, productivity and business.</p><div class="checks">✓ Instant Digital Access &nbsp; ✓ Secure Crypto Checkout &nbsp; ✓ Premium Quality</div>
 <a class="cta" href="#shop">Explore Products →</a></div><div class="orb"><div class="float one">DIGITAL<br><strong>PRODUCTS</strong></div><div class="float two">PROZONE<br><strong>SHOP</strong></div></div></section>
@@ -13,7 +39,35 @@
 <footer id="contact"><div class="brand"><i>◆</i> PROZONE<span>.SHOP</span><p>Premium digital products for everyone.</p></div><div><b>Payment</b><p>₿ Bitcoin (BTC)</p><p>Ł Litecoin (LTC)</p></div><div><b>Support</b><p>Contact us for help with your orders.</p></div></footer>
 
 <div id="cartModal" class="modal hidden"><div class="box"><button class="x" onclick="closeModal('cartModal')">×</button><h2>Your Cart</h2><div id="cartItems"></div><div class="total">Total <b id="cartTotal">$0</b></div><button class="cta full" onclick="checkout()">Continue to Checkout</button></div></div>
-<div id="checkoutModal" class="modal hidden"><div class="box"><button class="x" onclick="closeModal('checkoutModal')">×</button><h2>Crypto Checkout</h2><p class="muted">Choose your payment method.</p><div class="payments"><button class="payment selected" onclick="selectPayment('BTC',this)">₿ <b>Bitcoin</b><span>BTC</span></button><button class="payment" onclick="selectPayment('LTC',this)">Ł <b>Litecoin</b><span>LTC</span></button></div><div class="wallet"><small>PAYMENT ADDRESS</small><code id="wallet">bc1qjt3hpntl50fpzhtfup278rg0w4zqyrqpd8yx3j</code></div><button class="cta full" onclick="toast('Demo checkout — connect payment verification before accepting real orders.')">I've Paid</button></div></div>
-<div id="loginModal" class="modal hidden"><div class="box"><button class="x" onclick="closeModal('loginModal')">×</button><h2>Welcome Back</h2><input id="loginEmail" class="field" placeholder="Email"><input id="loginPass" class="field" type="password" placeholder="Password"><button class="cta full" onclick="login()">Login</button><p class="muted center">New here? <a href="#" onclick="closeModal('loginModal');openModal('signupModal')">Create an account</a></p></div></div>
+<div id="checkoutModal" class="modal hidden"><div class="box checkout-box"><button class="x" onclick="closeModal('checkoutModal')">×</button><h2>Crypto Checkout</h2><p class="muted">Scan the QR or copy the wallet address.</p><div class="payments"><button class="payment selected" onclick="selectPayment('BTC',this)">₿ <b>Bitcoin</b><span>BTC</span></button><button class="payment" onclick="selectPayment('LTC',this)">Ł <b>Litecoin</b><span>LTC</span></button></div><div class="qr-wrap"><img id="paymentQr" src="assets/btc-qr.png" alt="Bitcoin payment QR"><div><small>PAYMENT ADDRESS</small><code id="wallet">bc1qjt3hpntl50fpzhtfup278rg0w4zqyrqpd8yx3j</code><div class="amount">Order total: <b id="payTotal">$0</b></div></div></div><button class="cta full" onclick="toast('Demo payment submitted — server-side verification is required for real orders.')">I've Paid</button></div></div><div id="loginModal" class="modal hidden"><div class="box"><button class="x" onclick="closeModal('loginModal')">×</button><h2>Welcome Back</h2><input id="loginEmail" class="field" placeholder="Email"><input id="loginPass" class="field" type="password" placeholder="Password"><button class="cta full" onclick="login()">Login</button><p class="muted center">New here? <a href="#" onclick="closeModal('loginModal');openModal('signupModal')">Create an account</a></p></div></div>
 <div id="signupModal" class="modal hidden"><div class="box"><button class="x" onclick="closeModal('signupModal')">×</button><h2>Create Account</h2><input id="signupName" class="field" placeholder="Full name"><input id="signupEmail" class="field" placeholder="Email"><input id="signupPass" class="field" type="password" placeholder="Password"><button class="cta full" onclick="signup()">Create Account</button><p class="muted center">Already have an account? <a href="#" onclick="closeModal('signupModal');openModal('loginModal')">Login</a></p></div></div>
-<div id="toast"></div><script src="script.js"></script></body></html>
+<div id="toast"></div><script src="script.js"></script>
+<section id="paymentSubmission" class="panel payment-panel" style="display:none">
+  <div class="panel-head">
+    <h2>Submit Payment</h2>
+    <button type="button" class="close-panel" onclick="closePaymentSubmission()">×</button>
+  </div>
+  <p>After paying, enter the TXID below. Your order will stay <strong>Pending</strong> until admin manually verifies it.</p>
+  <label>Payment method
+    <select id="paymentMethod">
+      <option value="BTC">Bitcoin (BTC)</option>
+      <option value="LTC">Litecoin (LTC)</option>
+    </select>
+  </label>
+  <label>TXID / Transaction ID
+    <input id="paymentTxid" type="text" placeholder="Enter your transaction ID">
+  </label>
+  <button class="btn primary" type="button" onclick="submitManualPayment()">Submit for Review</button>
+  <div id="paymentSubmitStatus" class="status"></div>
+</section>
+
+<section id="adminPanel" class="panel admin-panel" style="display:none">
+  <div class="panel-head">
+    <h2>Admin — Payment Reviews</h2>
+    <button type="button" class="close-panel" onclick="closeAdminPanel()">×</button>
+  </div>
+  <p>Manually review submitted TXIDs and mark orders as Accepted or Rejected.</p>
+  <div id="adminOrders"></div>
+</section>
+
+</body></html>
